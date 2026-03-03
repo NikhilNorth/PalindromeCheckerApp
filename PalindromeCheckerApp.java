@@ -1,27 +1,51 @@
-import java.util.Scanner;
+interface PalindromeStrategy {
+    boolean isPalindrome(String text);
+}
 
-public class PalindromeCheckerApp {
+class ReversePalindromeStrategy implements PalindromeStrategy {
+    public boolean isPalindrome(String text) {
+        String reversed = new StringBuilder(text).reverse().toString();
+        return text.equals(reversed);
+    }
+}
 
-    public static boolean isPalindrome(String input) {
-        String cleaned = input.replaceAll("\\s+", "").toLowerCase();
+class LoopPalindromeStrategy implements PalindromeStrategy {
+    public boolean isPalindrome(String text) {
+        int left = 0;
+        int right = text.length() - 1;
+        while (left < right) {
+            if (text.charAt(left) != text.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
 
-        String reversed = new StringBuilder(cleaned).reverse().toString();
+class PalindromeContext {
+    private PalindromeStrategy strategy;
 
-        return cleaned.equals(reversed);
+    public void setStrategy(PalindromeStrategy strategy) {
+        this.strategy = strategy;
     }
 
+    public boolean checkPalindrome(String text) {
+        return strategy.isPalindrome(text);
+    }
+}
+
+public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        PalindromeContext context = new PalindromeContext();
 
-        System.out.print("Enter a string: ");
-        String userInput = scanner.nextLine();
+        String word = "madam";
 
-        if (isPalindrome(userInput)) {
-            System.out.println("It is a palindrome.");
-        } else {
-            System.out.println("It is not a palindrome.");
-        }
+        context.setStrategy(new ReversePalindromeStrategy());
+        System.out.println(context.checkPalindrome(word));
 
-        scanner.close();
+        context.setStrategy(new LoopPalindromeStrategy());
+        System.out.println(context.checkPalindrome(word));
     }
 }
