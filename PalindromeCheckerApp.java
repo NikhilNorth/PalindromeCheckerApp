@@ -1,21 +1,23 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class PalindromeCheckerApp {
 
-    public static boolean isPalindrome(String str) {
-        Stack<Character> stack = new Stack<>();
-        Queue<Character> queue = new LinkedList<>();
-
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            stack.push(ch);
-            queue.add(ch);
+    public static boolean isPalindrome(String text) {
+        if (text == null) {
+            return false;
         }
 
-        while (!stack.isEmpty()) {
-            if (stack.pop() != queue.remove()) {
+        Deque<Character> deque = new ArrayDeque<>();
+
+        for (char ch : text.toCharArray()) {
+            if (Character.isLetterOrDigit(ch)) {
+                deque.addLast(Character.toLowerCase(ch));
+            }
+        }
+
+        while (deque.size() > 1) {
+            if (!deque.removeFirst().equals(deque.removeLast())) {
                 return false;
             }
         }
@@ -24,12 +26,12 @@ public class PalindromeCheckerApp {
     }
 
     public static void main(String[] args) {
-        String input = "madam";
+        String input = "A man, a plan, a canal: Panama";
 
         if (isPalindrome(input)) {
-            System.out.println(input + " is a Palindrome");
+            System.out.println("It is a palindrome.");
         } else {
-            System.out.println(input + " is NOT a Palindrome");
+            System.out.println("It is not a palindrome.");
         }
     }
 }
