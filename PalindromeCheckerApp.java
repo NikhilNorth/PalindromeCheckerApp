@@ -1,10 +1,12 @@
 public class PalindromeCheckerApp {
-
     public static void main(String[] args) {
 
-        System.out.println("Palindrome Checker App");
-        System.out.println("Version : 1.0");
-        System.out.println("Welcome to Nikhil's Palindrome Checker ");
-        System.out.println("UC1 done");
+        String word = "racecar";
+
+        if (word.equals(new StringBuilder(word).reverse().toString())) {
+            System.out.println(word + " is a Palindrome");
+        } else {
+            System.out.println(word + " is not a Palindrome");
+        }
     }
 }
