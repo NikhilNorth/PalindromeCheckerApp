@@ -1,64 +1,26 @@
-class ListNode {
-    int data;
-    ListNode next;
-
-    ListNode(int data) {
-        this.data = data;
-        this.next = null;
-    }
-}
-
 public class PalindromeCheckerApp {
 
-    public static boolean isPalindrome(ListNode head) {
-        if (head == null || head.next == null) {
+    public static boolean isPalindrome(String str, int start, int end) {
+        if (start >= end) {
             return true;
         }
 
-        ListNode slow = head;
-        ListNode fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
         }
 
-        ListNode secondHalf = reverse(slow);
-        ListNode firstHalf = head;
-
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data) {
-                return false;
-            }
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
-        }
-
-        return true;
-    }
-
-    private static ListNode reverse(ListNode head) {
-        ListNode prev = null;
-        while (head != null) {
-            ListNode next = head.next;
-            head.next = prev;
-            prev = head;
-            head = next;
-        }
-        return prev;
+        return isPalindrome(str, start + 1, end - 1);
     }
 
     public static void main(String[] args) {
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(2);
-        head.next.next = new ListNode(3);
-        head.next.next.next = new ListNode(2);
-        head.next.next.next.next = new ListNode(1);
+        String input = "madam";
 
-        if (isPalindrome(head)) {
-            System.out.println("Linked List is Palindrome");
+        input = input.replaceAll("\\s+", "").toLowerCase();
+
+        if (isPalindrome(input, 0, input.length() - 1)) {
+            System.out.println(input + " is a palindrome.");
         } else {
-            System.out.println("Linked List is Not Palindrome");
+            System.out.println(input + " is not a palindrome.");
         }
     }
 }
